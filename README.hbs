@@ -1,0 +1,195 @@
+# Fibaro HomeCenter2 client
+
+A javascript client for communicating with Fibaro HomeCenter2 smart home controller.
+
+## Requirements
+
+- NodeJS (>=8.11.0)
+- Fibaro Home Center 2
+
+## Installation
+
+`yarn add fibaro-home-center2-client`
+
+or
+
+`npm install --save fibaro-home-center2-client`
+
+
+## Usage
+
+### Get rooms:
+
+```javascript
+const Fibaro = require('fibaro-home-center2-client');
+
+const client = new Fibaro.Hc2Client({host: '192.168.1.69', user: 'foo', password: 'bar'});
+client.getRooms().subscribe((rooms) => {
+   console.log(rooms);
+});
+```
+
+### Get all available devices:
+
+```javascript
+const Fibaro = require('fibaro-home-center2-client');
+
+const client = new Fibaro.Hc2Client({host: '192.168.1.69', user: 'foo', password: 'bar'});
+client.getDevices().subscribe((devices) => {
+   console.log(devices);
+});
+```
+
+### Poll devices properties' updates:
+
+```javascript
+const Fibaro = require('fibaro-home-center2-client');
+
+const client = new Fibaro.Hc2Client({host: '192.168.1.69', user: 'foo', password: 'bar'});
+client.events().subscribe((event) => {
+   console.log(event);
+});
+
+```
+
+### Control devices:
+
+```javascript
+const Fibaro = require('fibaro-home-center2-client');
+
+const client = new Fibaro.Hc2Client({host: '192.168.1.69', user: 'foo', password: 'bar'});
+client.getDevices().subscribe((devices) => {
+   const light = devices.find(device => device.identifiers.includes('kitchen/lights/main-light'));
+   light.turnOff().subscribe(() => {
+       console.log('Kitchen light has turned off');
+   });
+});
+```
+
+### Control devices based on events from other devices:
+
+```javascript
+const Fibaro = require('fibaro-home-center2-client');
+
+const client = new Fibaro.Hc2Client({host: '192.168.1.69', user: 'foo', password: 'bar'});
+client.getDevices().subscribe((devices) => {
+    const fan = devices.find(device => device.identifiers.includes('bedroom/climate/fan'));
+
+    client.events().subscribe((event) => {
+        if (event.identifiers.includes('bedroom/climate/temperature') && event.property === 'value') {
+            if (event.newValue > 22) {
+                fan.turnOn().subscribe();
+            } else {
+                fan.turnOff().subscribe();
+            }
+        }
+    })
+});
+```
+
+### Dump all devices' identifiers
+```javascript
+const Fibaro = require('fibaro-home-center2-client');
+
+const client = new Fibaro.Hc2Client({host: '192.168.1.69', user: 'foo', password: 'bar'});
+client.getDevices().subscribe((devices) => {
+    const map = {};
+    for (const device of devices) {
+        for (const identifier of device.identifiers) {
+            map[identifier] = device.id;
+        }
+    }
+
+    for (const key of Object.keys(map).sort()) {
+        console.log(key + ': ' + map[key]);
+    }
+});
+```
+
+### List all powered devices
+```javascript
+const Fibaro = require('fibaro-home-center2-client');
+
+const client = new Fibaro.Hc2Client({host: '192.168.1.69', user: 'foo', password: 'bar'});
+client.getDevices().subscribe((devices) => {
+    devices
+        .filter(device => device.properties.power > 0)
+        .map(device => console.log(device.identifiers.join(', ') + ': ' + device.properties.power + 'w'));
+});
+```
+
+Output example:
+```
+hall/lights/lamp: 39.4w
+garage/lights/lamp: 79.1w
+```
+
+### List all devices' actions and their possible arguments
+```javascript
+const Fibaro = require('fibaro-home-center2-client');
+
+const client = new Fibaro.Hc2Client({host: '192.168.1.69', user: 'foo', password: 'bar'});
+client.getDevices().subscribe((devices) => {
+    for (const device of devices) {
+        console.log(device.identifiers.join(', '), device.actions);
+    }
+});
+```
+Output example:
+```
+...
+bedroom/blinds/curtains {
+    close: 0,
+    open: 0,
+    reconfigure: 0,
+    reset: 0,
+    sceneActivationSet: 0,
+    setValue: 1,
+    setValue2: 1,
+    startLevelDecrease: 0,
+    startLevelIncrease: 0,
+    stop: 0,
+    stopLevelChange: 0
+}
+bathroom/safety/flood-sensor {
+    abortUpdate: 1,
+    forceArm: 0,
+    meetArmConditions: 0,
+    reconfigure: 0,
+    retryUpdate: 1,
+    setArmed: 1,
+    setInterval: 1,
+    startUpdate: 1,
+    updateFirmware: 1
+}
+bedroom/lights/led-strip {
+    abortUpdate: 1,
+    reconfigure: 0,
+    reset: 0,
+    retryUpdate: 1,
+    setB: 1,
+    setBrightness: 1,
+    setColor: 1,
+    setFavoriteProgram: 2,
+    setG: 1,
+    setR: 1,
+    setValue: 1,
+    setW: 1,
+    startLevelDecrease: 0,
+    startLevelIncrease: 0,
+    startProgram: 1,
+    startUpdate: 1,
+    stopLevelChange: 0,
+    turnOff: 0,
+    turnOn: 0,
+    updateFirmware: 1
+}
+...
+```
+
+## API Reference
+{{>main}}
+
+## License
+
+This project is licensed under the GNU GPLv3 - see the [LICENSE](LICENSE) file for details
