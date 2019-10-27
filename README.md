@@ -1,10 +1,11 @@
 # Fibaro HomeCenter2 client
 
-A client for communicating with Gree air conditioners.
+A javascript client for communicating with Fibaro HomeCenter2 smart home controller.
 
 ## Requirements
 
 - NodeJS (>=8.11.0)
+- Fibaro Home Center 2
 
 ## Installation
 
@@ -113,8 +114,14 @@ const client = new Fibaro.Hc2Client({host: '192.168.1.69', user: 'foo', password
 client.getDevices().subscribe((devices) => {
     devices
         .filter(device => device.properties.power > 0)
-        .map(device => console.log(device.identifiers.join(', ') + ': ' + device.properties.power));
+        .map(device => console.log(device.identifiers.join(', ') + ': ' + device.properties.power + 'w'));
 });
+```
+
+Output example:
+```
+hall/lights/lamp: 39.4w
+garage/lights/lamp: 79.1w
 ```
 
 ### List all devices' actions and their possible arguments
@@ -128,10 +135,11 @@ client.getDevices().subscribe((devices) => {
     }
 });
 ```
-output
+Output example:
 ```
 ...
-bedroom/blinds/curtains { close: 0,
+bedroom/blinds/curtains {
+    close: 0,
     open: 0,
     reconfigure: 0,
     reset: 0,
@@ -141,8 +149,10 @@ bedroom/blinds/curtains { close: 0,
     startLevelDecrease: 0,
     startLevelIncrease: 0,
     stop: 0,
-    stopLevelChange: 0 }
-bathroom/safety/flood-sensor { abortUpdate: 1,
+    stopLevelChange: 0
+}
+bathroom/safety/flood-sensor {
+    abortUpdate: 1,
     forceArm: 0,
     meetArmConditions: 0,
     reconfigure: 0,
@@ -150,8 +160,10 @@ bathroom/safety/flood-sensor { abortUpdate: 1,
     setArmed: 1,
     setInterval: 1,
     startUpdate: 1,
-    updateFirmware: 1 }
-bedroom/lights/bed-backlight { abortUpdate: 1,
+    updateFirmware: 1
+}
+bedroom/lights/led-strip {
+    abortUpdate: 1,
     reconfigure: 0,
     reset: 0,
     retryUpdate: 1,
@@ -170,7 +182,8 @@ bedroom/lights/bed-backlight { abortUpdate: 1,
     stopLevelChange: 0,
     turnOff: 0,
     turnOn: 0,
-    updateFirmware: 1 }
+    updateFirmware: 1
+}
 ...
 ```
 
@@ -339,14 +352,13 @@ Client options
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| host | <code>string</code> | <code>&quot;192.168.1.69&quot;</code> | home center ip-address |
-| port | <code>number</code> | <code>80</code> | home center port |
+| host | <code>string</code> | <code>&quot;192.168.1.69&quot;</code> | HC2 controller ip-address |
+| port | <code>number</code> | <code>80</code> | HC2 controller port |
 | user | <code>string</code> | <code>&quot;admin&quot;</code> | username |
 | password | <code>string</code> |  | user password |
-| connectTimeout | <code>number</code> | <code>7000</code> | Reconnect to device if no success timeout |
-| autoConnect | <code>boolean</code> | <code>true</code> | Automatically connect to device when client is created. Alternatively method `connect()` can be used. |
-| pollingInterval | <code>number</code> | <code>1000</code> | Device properties polling interval |
-| pollingTimeout | <code>number</code> | <code>3000</code> | Device properties polling timeout, emits `no_response` events in case of no response from HVAC device for a status request |
+| connectTimeout | <code>number</code> | <code>7000</code> | Reconnect to controller if no success timeout |
+| pollingInterval | <code>number</code> | <code>1000</code> | Controller devices properties polling interval |
+| pollingTimeout | <code>number</code> | <code>3000</code> | Controller devices properties polling timeout |
 | debug | <code>boolean</code> | <code>false</code> | Trace debug information |
 
 <a name="DevicePropertyUpdateEvent"></a>
