@@ -1,6 +1,6 @@
 # Fibaro HomeCenter2 client
 
-A javascript client for communicating with Fibaro HomeCenter2 smart home controller.
+Javascript client for communicating with Fibaro HomeCenter2 smart home controllers.
 
 ## Requirements
 
