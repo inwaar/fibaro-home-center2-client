@@ -1,6 +1,6 @@
 {
   "name": "fibaro-home-center2-client",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Javascript client for communicating with Fibaro HomeCenter2 smart home controllers",
   "scripts": {
     "test": "mocha",
@@ -22,6 +22,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com/inwaar/fibaro-home-center2-client.git"
+    "url": "git+https@github.com/inwaar/fibaro-home-center2-client.git"
   }
 }
