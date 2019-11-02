@@ -208,6 +208,8 @@ bedroom/lights/led-strip {
 <dl>
 <dt><a href="#DevicePropertyUpdateEvent">DevicePropertyUpdateEvent</a> : <code>Object</code></dt>
 <dd></dd>
+<dt><a href="#EventCriteria">EventCriteria</a> : <code>Object</code></dt>
+<dd></dd>
 <dt><a href="#SystemEvent">SystemEvent</a> : <code>Object</code></dt>
 <dd></dd>
 <dt><a href="#Room">Room</a> : <code>Object</code></dt>
@@ -246,6 +248,12 @@ Creates a new client.
 Subscribe on device property update events
 
 **Kind**: instance method of [<code>Client</code>](#Client)  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| criteria | [<code>EventCriteria</code>](#EventCriteria) | Optional event filtering |
+
 <a name="Client+system"></a>
 
 ### client.system() ⇒ [<code>Observable.&lt;SystemEvent&gt;</code>](#SystemEvent)
@@ -374,6 +382,17 @@ Client options
 | property | <code>string</code> | Updated property |
 | newValue | <code>string</code> | updated value |
 | oldValue | <code>string</code> | previous value |
+
+<a name="EventCriteria"></a>
+
+## EventCriteria : <code>Object</code>
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| device | [<code>Device</code>](#Device) \| <code>null</code> | Subscribe only on a specific device events |
+| properties | <code>Array.&lt;string&gt;</code> \| <code>null</code> | Subscribe only on a specific property change events |
 
 <a name="SystemEvent"></a>
 
