@@ -1,0 +1,13 @@
+/**
+ * @type Fibaro.CLIENT_OPTIONS
+ */
+const EXAMPLES_CLIENT_OPTIONS = {
+    host: '192.168.1.69',
+    user: 'foo',
+    password: 'far',
+    debug: true
+};
+
+module.exports = {
+    EXAMPLES_CLIENT_OPTIONS,
+};
