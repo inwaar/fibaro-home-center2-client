@@ -1,10 +1,12 @@
 # Fibaro HomeCenter2 client
 
+[![Build Status](https://travis-ci.org/inwaar/fibaro-home-center2-client.svg?branch=master)](https://travis-ci.org/inwaar/fibaro-home-center2-client)
+
 Javascript client for communicating with Fibaro HomeCenter2 smart home controllers.
 
 ## Requirements
 
-- NodeJS (>=8.11.0)
+- NodeJS (>=10)
 - Fibaro Home Center 2
 
 ## Installation
